@@ -1,0 +1,60 @@
+{
+  "name": "my-app1",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.2.5",
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^10.0.0",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^13.9.1",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-redux": "^7.1.7",
+    "immer": "^5.3.6",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "react-scripts": "^3.4.0",
+    "redux-saga": "^1.1.3",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false",
+    "eject": "react-scripts eject",
+    "postbuild": "mv build ../../.dist",
+    "build:local": "rm -rf ../../.dist && npm run build",
+    "sync": "npm run build:local && aws s3 sync ../../.dist/ s3://cx-shared-frontend-bucket-dev/$(echo $USER) --profile aad",
+    "postsync": "echo please visit https://cx-shared-frontend-bucket-dev.s3.eu-central-1.amazonaws.com/$(echo $USER)/index.html",
+    "test:watch": "react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --pattern '**/*.*(js|jsx|ts|tsx)' && npm run test"
+    }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "trailingComma": "all"
+  }
+}
